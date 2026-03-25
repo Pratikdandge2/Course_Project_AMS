@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --navy: #1b2f5e;
+  --accent: #28a745;
+  --cream: #f5f5f0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: #fff;
+  color: #0f172a;
+}
+
+/* small utility for card hover requested in spec */
+.card-hover {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(2, 6, 23, 0.12);
+}
+

@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  name           String
+  email          String   @unique
+  password       String
+  role           Role     @default(ALUMNI)
+  status         Status   @default(INCOMPLETE)
+  graduationYear Int?
+  department     String?
+  profilePhoto   String?
+  linkedinUrl    String?
+  gender         Gender?
+  dateOfBirth    DateTime?
+  mobileNo       String?
+  currentCity    String?
+  createdAt      DateTime @default(now())
+
+  alumniProfile    AlumniProfile?
+  groupMemberships GroupMember[]
+  businessListings BusinessListing[]
+}
+
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  imageUrl    String?
+  publishedAt DateTime @default(now())
+}
+
+model Event {
+  id       Int      @id @default(autoincrement())
+  title    String
+  location String
+  date     DateTime
+  isPast   Boolean  @default(false)
+}
+
+model GalleryPhoto {
+  id       Int    @id @default(autoincrement())
+  imageUrl String
+  caption  String?
+}
+
+enum Role {
+  ALUMNI
+  ADMIN
+}
+
+enum Status {
+  INCOMPLETE
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  PREFER_NOT_TO_DISCLOSE
+}
+
+enum GroupCategory {
+  INTEREST_GROUPS
+  CHAPTERS
+  CLASS_GROUPS
+  YEAR_GROUPS
+}
+
+model Group {
+  id          Int           @id @default(autoincrement())
+  name        String
+  category    GroupCategory
+  description String?
+  imageUrl    String?
+  createdAt   DateTime      @default(now())
+  members     GroupMember[]
+}
+
+model GroupMember {
+  id       Int      @id @default(autoincrement())
+  userId   Int
+  groupId  Int
+  joinedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id])
+  group    Group    @relation(fields: [groupId], references: [id])
+
+  @@unique([userId, groupId])
+}
+
+model AlumniProfile {
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique
+  user            User     @relation(fields: [userId], references: [id])
+  courses         Course[]
+  company         String?
+  position        String?
+  workFromYear    Int?
+  workToYear      Int?
+  yearsExperience Int?
+  rolesPlayed     String[]
+  industries      String[]
+  skills          String[]
+  profilePhotoUrl String?
+  profileComplete Int      @default(0)
+
+  // faculty-only fields (kept optional)
+  facultyDepartment String?
+  facultyDesignation String?
+  facultyFromYear    Int?
+  facultyToYear      Int?
+}
+
+model Course {
+  id              Int          @id @default(autoincrement())
+  alumniProfileId Int
+  alumniProfile   AlumniProfile @relation(fields: [alumniProfileId], references: [id])
+  degree          String
+  stream          String
+  endYear         Int
+  isStillPursuing Boolean      @default(false)
+  type            CourseType   @default(ALUMNI)
+}
+
+enum CourseType {
+  ALUMNI
+  STUDENT
+  FACULTY
+}
+
+model BusinessListing {
+  id              Int      @id @default(autoincrement())
+  name            String
+  description     String?
+  logoUrl         String?
+  industry        String?
+  location        String?
+  website         String?
+  employees       String?
+  fundingUsd      String?
+  contactNumber   String?
+  contactEmail    String?
+  products        String[]
+  services        String[]
+  socialLinkedin  String?
+  socialTwitter   String?
+  socialFacebook  String?
+  socialInstagram String?
+  createdById     Int
+  createdBy       User     @relation(fields: [createdById], references: [id])
+  createdAt       DateTime @default(now())
+}
+
