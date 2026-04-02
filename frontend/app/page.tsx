@@ -8,6 +8,7 @@ import { GalleryStrip, type GalleryPhoto } from "../components/GalleryStrip";
 import { MemberAvatars, type Member } from "../components/MemberAvatars";
 import { apiFetch } from "../lib/api";
 import { Skeleton } from "../components/Skeleton";
+import { WorldMapDemo } from "../components/WorldMapDemo";
 
 async function getHomeData() {
   try {
@@ -126,9 +127,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA BANNER ── */}
-      <section className="bg-gradient-to-r from-[var(--navy-dark)] via-[var(--navy)] to-[#1e4480]">
-        <div className="mx-auto max-w-6xl px-4 py-14 text-center">
+      {/* ── CTA BANNER & FOOTER with World Map background ── */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-[var(--navy-dark)] via-[var(--navy)] to-[#1e4480]">
+        {/* World map as background */}
+        <div className="absolute inset-x-0 bottom-0 top-0 opacity-70 pointer-events-none flex items-center justify-center">
+          <WorldMapDemo />
+        </div>
+        
+        {/* CTA BANNER */}
+        <div className="relative z-10 mx-auto max-w-6xl px-4 py-16 text-center">
           <h2 className="text-2xl font-black text-white md:text-3xl">
             Ready to reconnect with your{" "}
             <span className="text-[var(--gold)]">VCET family?</span>
@@ -157,9 +164,12 @@ export default async function HomePage() {
             </svg>
           </a>
         </div>
-      </section>
 
-      <Footer />
+        {/* FOOTER */}
+        <div className="relative z-10">
+          <Footer />
+        </div>
+      </section>
     </div>
   );
 }

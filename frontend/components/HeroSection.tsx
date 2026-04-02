@@ -6,24 +6,24 @@ import clsx from "clsx";
 
 const slides = [
   {
-    img: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=80",
+    img: "/img1.jpg",
     label: "Reconnect with 7,000+ alumni",
   },
   {
-    img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1600&q=80",
+    img: "/img2.jpg",
     label: "Discover career opportunities",
   },
   {
-    img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80",
+    img: "/img3.jpg",
     label: "Share knowledge & mentor peers",
   },
 ];
 
 const stats = [
   { value: "7,000+", label: "Alumni" },
-  { value: "25+", label: "Years" },
-  { value: "500+", label: "Jobs Posted" },
-  { value: "50+", label: "Events" },
+  { value: "25+",    label: "Years"  },
+  { value: "500+",   label: "Jobs Posted" },
+  { value: "50+",    label: "Events" },
 ];
 
 export function HeroSection() {
@@ -38,19 +38,32 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[var(--navy-dark)] via-[var(--navy)] to-[#1e4480]">
-      {/* Background dot-grid pattern overlay */}
+    <section className="relative min-h-[600px] overflow-hidden md:min-h-[680px]">
+
+      {/* ── LAYER 1: Real VCET campus photo as full background ── */}
       <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-          backgroundSize: "32px 32px",
-        }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/vcet-campus.jpg')" }}
+        aria-hidden
       />
 
-      <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:py-20">
+      {/* ── LAYER 2: Dark navy overlay — gives the blue tint like the login page ── */}
+      {/* Adjust the opacity value (0.72) to make it lighter or darker:            */}
+      {/* 0.60 = lighter, shows more building | 0.82 = darker, more navy           */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(17,30,61,0.82) 0%, rgba(27,47,94,0.75) 50%, rgba(30,68,128,0.65) 100%)",
+        }}
+        aria-hidden
+      />
+
+      {/* ── CONTENT (sits above all layers) ── */}
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:py-24">
+
         {/* Left — Text */}
-        <div className="z-10">
+        <div>
           {/* Pre-heading badge */}
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold text-white/90 backdrop-blur-sm">
             <span className="h-2 w-2 rounded-full bg-[var(--gold)] pulse-dot" />
@@ -77,18 +90,8 @@ export function HeroSection() {
               className="inline-flex items-center gap-2 rounded-xl bg-[var(--gold)] px-7 py-3.5 text-sm font-bold text-slate-900 shadow-lg hover:bg-amber-400 transition-all hover:scale-105"
             >
               JOIN NOW — It&apos;s Free
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
             <Link
@@ -103,18 +106,14 @@ export function HeroSection() {
           <div className="mt-10 grid grid-cols-4 gap-4 border-t border-white/10 pt-8">
             {stats.map((s) => (
               <div key={s.label}>
-                <div className="text-xl font-black text-[var(--gold)]">
-                  {s.value}
-                </div>
-                <div className="text-xs text-white/50 font-medium">
-                  {s.label}
-                </div>
+                <div className="text-xl font-black text-[var(--gold)]">{s.value}</div>
+                <div className="text-xs font-medium text-white/50">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right — Carousel */}
+        {/* Right — Carousel (unchanged) */}
         <div className="relative z-10">
           <div className="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/20">
             {slides.map((s, i) => (
@@ -129,17 +128,14 @@ export function HeroSection() {
             ))}
             <div className="relative h-72 md:h-96" />
 
-            {/* Image overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy-dark)]/60 via-transparent to-transparent" />
 
-            {/* Slide label */}
             <div className="absolute bottom-14 left-5 right-5">
               <div className="inline-block rounded-lg bg-black/40 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm">
                 {slides[idx].label}
               </div>
             </div>
 
-            {/* Dots */}
             <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2">
               {slides.map((_, i) => (
                 <button
@@ -148,9 +144,7 @@ export function HeroSection() {
                   onClick={() => setIdx(i)}
                   className={clsx(
                     "rounded-full transition-all duration-300",
-                    i === idx
-                      ? "h-2 w-8 bg-[var(--gold)]"
-                      : "h-2 w-2 bg-white/40",
+                    i === idx ? "h-2 w-8 bg-[var(--gold)]" : "h-2 w-2 bg-white/40",
                   )}
                 />
               ))}
@@ -161,30 +155,20 @@ export function HeroSection() {
           <div className="absolute -bottom-4 -left-4 rounded-xl bg-white p-3 shadow-xl ring-1 ring-slate-100">
             <div className="flex items-center gap-2.5">
               <div className="flex -space-x-2">
-                {[
-                  "bg-blue-400",
-                  "bg-purple-400",
-                  "bg-pink-400",
-                  "bg-amber-400",
-                ].map((c, i) => (
-                  <div
-                    key={i}
-                    className={`h-7 w-7 rounded-full ${c} border-2 border-white`}
-                  />
+                {["bg-blue-400", "bg-purple-400", "bg-pink-400", "bg-amber-400"].map((c, i) => (
+                  <div key={i} className={`h-7 w-7 rounded-full ${c} border-2 border-white`} />
                 ))}
               </div>
               <div>
-                <div className="text-xs font-bold text-slate-800">
-                  7,000+ Alumni
-                </div>
-                <div className="text-[10px] text-slate-500">
-                  joined the network
-                </div>
+                <div className="text-xs font-bold text-slate-800">7,000+ Alumni</div>
+                <div className="text-[10px] text-slate-500">joined the network</div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+
     </section>
   );
 }

@@ -38,8 +38,24 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--cream)] px-4 py-10">
-      <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="relative min-h-screen flex items-center justify-center px-4">
+      {/* Building photo background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/vcet-campus.jpg')" }}
+        aria-hidden
+      />
+      {/* Dark navy overlay */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "linear-gradient(135deg, rgba(17,30,61,0.85) 0%, rgba(27,47,94,0.78) 100%)"
+        }}
+        aria-hidden
+      />
+
+      {/* Login card */}
+      <div className="relative z-10 w-full max-w-md rounded-2xl border border-white/10 bg-white/95 p-8 shadow-2xl backdrop-blur-sm">
         <h1 className="text-xl font-extrabold text-slate-900">Login</h1>
 
         <form onSubmit={onSubmit} className="mt-5 grid gap-3">
@@ -78,4 +94,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

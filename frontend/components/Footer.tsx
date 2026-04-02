@@ -18,7 +18,7 @@ const bottom = [
 
 export function Footer() {
   return (
-    <footer className="bg-[var(--navy-dark)] text-slate-300">
+    <footer className="bg-transparent text-slate-300">
       {/* Main footer body */}
       <div className="mx-auto max-w-6xl grid gap-10 px-4 py-12 md:grid-cols-3">
         {/* Brand */}
