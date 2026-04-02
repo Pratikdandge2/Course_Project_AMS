@@ -1,42 +1,114 @@
 "use client";
 
-const social = ["Website", "Facebook", "Twitter", "LinkedIn", "YouTube", "Instagram"];
-const bottom = ["Copyright", "Disclaimer", "Terms of Use", "Privacy Policy", "Alumni Directory"];
+const social = [
+  { label: "Website", href: "#", icon: "🌐" },
+  { label: "Facebook", href: "#", icon: "📘" },
+  { label: "Twitter", href: "#", icon: "🐦" },
+  { label: "LinkedIn", href: "#", icon: "💼" },
+  { label: "YouTube", href: "#", icon: "▶️" },
+  { label: "Instagram", href: "#", icon: "📸" },
+];
+
+const bottom = [
+  "Disclaimer",
+  "Terms of Use",
+  "Privacy Policy",
+  "Alumni Directory",
+];
 
 export function Footer() {
   return (
-    <footer className="mt-14 bg-slate-950 text-slate-200">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 md:grid-cols-2">
+    <footer className="bg-[var(--navy-dark)] text-slate-300">
+      {/* Main footer body */}
+      <div className="mx-auto max-w-6xl grid gap-10 px-4 py-12 md:grid-cols-3">
+        {/* Brand */}
         <div>
-          <div className="text-sm font-semibold">VCET Alumni Association</div>
-          <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-300">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-lg font-black text-white">
+              V
+            </div>
+            <div>
+              <div className="text-sm font-black text-white">VCET</div>
+              <div className="text-xs text-slate-400">Alumni Association</div>
+            </div>
+          </div>
+          <p className="text-xs leading-relaxed text-slate-400 max-w-xs">
+            Vidyavardhini's College of Engineering and Technology, Vasai.
+            Keeping our alumni connected, inspired, and growing.
+          </p>
+        </div>
+
+        {/* Social links */}
+        <div>
+          <div className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
+            Follow Us
+          </div>
+          <div className="grid grid-cols-3 gap-2">
             {social.map((s) => (
-              <a key={s} href="#" className="hover:text-white">
-                {s}
+              <a
+                key={s.label}
+                href={s.href}
+                className="flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs font-medium text-slate-300 hover:bg-white/10 hover:text-white transition-all"
+              >
+                <span>{s.icon}</span>
+                {s.label}
               </a>
             ))}
           </div>
         </div>
 
-        <div className="flex items-start justify-start gap-3 md:justify-end">
-          <div className="rounded bg-slate-900 px-4 py-2 text-xs">Google Play</div>
-          <div className="rounded bg-slate-900 px-4 py-2 text-xs">App Store</div>
+        {/* App download */}
+        <div>
+          <div className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
+            Download App
+          </div>
+          <div className="flex flex-col gap-3">
+            <a
+              href="#"
+              className="flex items-center gap-3 rounded-xl border border-white/10 px-4 py-3 hover:bg-white/10 transition-all"
+            >
+              <span className="text-2xl">▶</span>
+              <div>
+                <div className="text-[10px] text-slate-400">GET IT ON</div>
+                <div className="text-sm font-bold text-white">Google Play</div>
+              </div>
+            </a>
+            <a
+              href="#"
+              className="flex items-center gap-3 rounded-xl border border-white/10 px-4 py-3 hover:bg-white/10 transition-all"
+            >
+              <span className="text-2xl"></span>
+              <div>
+                <div className="text-[10px] text-slate-400">
+                  DOWNLOAD ON THE
+                </div>
+                <div className="text-sm font-bold text-white">App Store</div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
 
-      <div className="border-t border-slate-800">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 text-xs text-slate-300">
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
+      {/* Bottom bar */}
+      <div className="border-t border-white/5">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 text-xs text-slate-400">
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
             {bottom.map((b) => (
-              <a key={b} href="#" className="hover:text-white">
+              <a
+                key={b}
+                href="#"
+                className="hover:text-white transition-colors"
+              >
                 {b}
               </a>
             ))}
           </div>
-          <div>© {new Date().getFullYear()} VCET</div>
+          <div>
+            © {new Date().getFullYear()} VCET Alumni Association. All rights
+            reserved.
+          </div>
         </div>
       </div>
     </footer>
   );
 }
-
