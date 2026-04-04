@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
+import { GlowingEffect } from "./ui/glowing-effect";
 
 const slides = [
   {
@@ -87,18 +88,22 @@ export function HeroSection() {
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link
               href="/register"
-              className="inline-flex items-center gap-2 rounded-xl bg-[var(--gold)] px-7 py-3.5 text-sm font-bold text-slate-900 shadow-lg hover:bg-amber-400 transition-all hover:scale-105"
+              className="relative overflow-hidden inline-flex items-center gap-2 rounded-xl bg-[var(--gold)] px-7 py-3.5 text-sm font-bold text-slate-900 shadow-lg hover:bg-amber-400 transition-all hover:scale-105"
             >
-              JOIN NOW — It&apos;s Free
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
+              <GlowingEffect disabled={false} />
+              <span className="relative z-10 flex items-center gap-2">
+                JOIN NOW — It&apos;s Free
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
             </Link>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-7 py-3.5 text-sm font-semibold text-white hover:bg-white/10 transition-all"
+              className="relative overflow-hidden inline-flex items-center gap-2 rounded-xl border-2 border-white/60 px-7 py-3.5 text-sm font-semibold text-white hover:bg-white/15 hover:border-white transition-all"
             >
-              Already a member? Login
+              <GlowingEffect disabled={false} />
+              <span className="relative z-10">Already a member? Login</span>
             </Link>
           </div>
 
@@ -107,7 +112,7 @@ export function HeroSection() {
             {stats.map((s) => (
               <div key={s.label}>
                 <div className="text-xl font-black text-[var(--gold)]">{s.value}</div>
-                <div className="text-xs font-medium text-white/50">{s.label}</div>
+                <div className="text-xs font-semibold text-white/70 mt-0.5">{s.label}</div>
               </div>
             ))}
           </div>
@@ -152,8 +157,9 @@ export function HeroSection() {
           </div>
 
           {/* Floating member card */}
-          <div className="absolute -bottom-4 -left-4 rounded-xl bg-white p-3 shadow-xl ring-1 ring-slate-100">
-            <div className="flex items-center gap-2.5">
+          <div className="absolute -bottom-4 left-4 md:-left-4 relative overflow-hidden rounded-xl bg-white p-3 shadow-xl ring-1 ring-slate-100 z-20">
+            <GlowingEffect variant="white" disabled={false} />
+            <div className="relative z-10 flex items-center gap-2.5">
               <div className="flex -space-x-2">
                 {["bg-blue-400", "bg-purple-400", "bg-pink-400", "bg-amber-400"].map((c, i) => (
                   <div key={i} className={`h-7 w-7 rounded-full ${c} border-2 border-white`} />
@@ -169,6 +175,15 @@ export function HeroSection() {
       </div>
 
 
+      {/* Smooth fade hero → white */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.85) 80%, #ffffff 100%)",
+        }}
+        aria-hidden
+      />
     </section>
   );
 }
