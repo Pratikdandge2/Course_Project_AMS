@@ -9,6 +9,22 @@ import { apiFetch } from "../lib/api";
 import { loadAuth } from "../lib/authStore";
 import { getMockNotifications, getMockUnreadNotificationsCount, markMockNotificationRead, type MockNotification } from "../lib/mockNotifications";
 import { getMockUnreadMessagesCount } from "../lib/mockMessages";
+import {
+  LayoutDashboard,
+  Briefcase,
+  Users,
+  FolderOpen,
+  Megaphone,
+  Calendar,
+  Bell,
+  MessageSquare,
+  ChevronDown,
+  User as UserIcon,
+  Settings,
+  LogOut,
+  Pencil,
+  Handshake
+} from "lucide-react";
 
 type AuthedUser = {
   name: string;
@@ -18,13 +34,13 @@ type AuthedUser = {
 };
 
 const iconNavItems = [
-  { key: "dashboard", label: "DASHBOARD", href: "/dashboard", emoji: "🚀" },
-  { key: "jobs", label: "JOB BOARD", href: "/jobs", emoji: "🚗" },
-  { key: "members", label: "MEMBERS", href: "/members", emoji: "👥" },
-  { key: "groups", label: "MY GROUPS", href: "/my-groups", emoji: "🤝" },
-  { key: "business", label: "BUSINESS DIR", href: "/business-dir", emoji: "📁" },
-  { key: "newsroom", label: "NEWSROOM", href: "/newsroom", emoji: "📢" },
-  { key: "events", label: "EVENTS", href: "/events", emoji: "📅" }
+  { key: "dashboard", label: "Home", href: "/dashboard", Icon: LayoutDashboard },
+  { key: "jobs", label: "Jobs", href: "/jobs", Icon: Briefcase },
+  { key: "members", label: "Network", href: "/members", Icon: Users },
+  { key: "groups", label: "Groups", href: "/my-groups", Icon: Handshake },
+  { key: "business", label: "Business", href: "/business-dir", Icon: FolderOpen },
+  { key: "newsroom", label: "News", href: "/newsroom", Icon: Megaphone },
+  { key: "events", label: "Events", href: "/events", Icon: Calendar }
 ] as const;
 
 function initials(name: string) {
@@ -157,29 +173,37 @@ export function AuthShell({
           <div className="flex items-center gap-3">
             <button
               type="button"
-              className="relative rounded p-2 text-slate-700 hover:bg-slate-50"
+              className="group relative flex flex-col items-center gap-0.5 rounded px-2 py-1 text-slate-500 hover:text-slate-900"
               aria-label="Notifications"
               onClick={() => {
                 setMenuOpen(false);
                 setNotificationOpen((v) => !v);
               }}
             >
-              🔔
-              <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white">
-                {unreadNotificationCount}
-              </span>
+              <Bell className="h-6 w-6" />
+              <span className="text-[11px] font-medium">Notifications</span>
+              {unreadNotificationCount > 0 && (
+                <span className="absolute right-3 top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white ring-2 ring-white">
+                  {unreadNotificationCount}
+                </span>
+              )}
             </button>
 
             <button
               type="button"
-              className="relative rounded p-2 text-slate-700 hover:bg-slate-50"
+              className="group flex flex-col items-center gap-0.5 rounded px-2 py-1 text-slate-500 hover:text-slate-900"
               aria-label="Messages"
               onClick={() => router.push("/messages")}
             >
-              ✉️
-              <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white">
-                {unreadMessageCount}
-              </span>
+              <div className="relative">
+                <MessageSquare className="h-6 w-6" />
+                {unreadMessageCount > 0 && (
+                  <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white ring-2 ring-white">
+                    {unreadMessageCount}
+                  </span>
+                )}
+              </div>
+              <span className="text-[11px] font-medium">Messaging</span>
             </button>
 
             <div className="relative" ref={notificationRef}>
@@ -259,13 +283,12 @@ export function AuthShell({
                     <span className="text-xs font-bold text-[var(--navy)]">{initials(displayName)}</span>
                   )}
                 </div>
-                <div className="hidden text-left sm:block">
-                  <div className="text-sm font-semibold leading-tight text-slate-900">{firstName}</div>
-                  <div className="text-xs leading-tight text-slate-500">{user?.email ?? ""}</div>
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-0.5 text-slate-500 group-hover:text-slate-900">
+                    <span className="text-[11px] font-medium">Me</span>
+                    <ChevronDown className="h-3 w-3" />
+                  </div>
                 </div>
-                <span aria-hidden className="text-slate-500">
-                  ▾
-                </span>
               </button>
 
               {menuOpen ? (
@@ -287,26 +310,28 @@ export function AuthShell({
                     </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      router.push("/profile");
-                    }}
-                    className="block w-full px-4 py-3 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-                  >
-                    👤 My Profile
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      router.push("/profile/edit");
-                    }}
-                    className="block w-full px-4 py-3 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-                  >
-                    ✏️ Edit Profile
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        router.push("/profile");
+                      }}
+                      className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
+                    >
+                      <UserIcon className="h-4 w-4 text-slate-500" />
+                      My Profile
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        router.push("/profile/edit");
+                      }}
+                      className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
+                    >
+                      <Pencil className="h-4 w-4 text-slate-500" />
+                      Edit Profile
+                    </button>
                   <button
                     type="button"
                     onClick={() => {
@@ -354,7 +379,7 @@ export function AuthShell({
         {/* Row 2: Emoji icon nav bar */}
         <div className="w-full border-b border-slate-200 bg-white">
           <div className="mx-auto flex max-w-6xl items-stretch px-2">
-            {iconNavItems.map((it, idx) => {
+            {iconNavItems.map((it) => {
               const active =
                 pathname === it.href ||
                 (it.key === "dashboard" && pathname.startsWith("/dashboard")) ||
@@ -370,17 +395,16 @@ export function AuthShell({
                   key={it.key}
                   href={it.href}
                   className={clsx(
-                    "flex flex-1 items-center justify-center gap-2 px-4 py-3 text-center",
-                    idx === 0 ? "border-l-0" : "border-l border-slate-200",
-                    active ? "bg-slate-100" : "bg-white hover:bg-slate-50"
+                    "relative flex flex-1 flex-col items-center justify-center gap-1.5 px-3 py-3 text-center transition-colors",
+                    active ? "text-slate-900" : "text-slate-500 hover:text-slate-900"
                   )}
                 >
-                  <div className="leading-tight">
-                    <div className="text-base" aria-hidden>
-                      {it.emoji}
-                    </div>
-                    <div className="text-[11px] font-extrabold tracking-wide text-slate-900">{it.label}</div>
+                  <it.Icon className={clsx("h-6 w-6 transition-all", active ? "scale-110" : "")} />
+                  <div className={clsx("text-xs font-semibold tracking-wide", active ? "text-slate-900 font-bold" : "")}>
+                    {it.label}
                   </div>
+                  {/* LinkedIn-style active bottom indicator */}
+                  {active && <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-slate-900" />}
                 </Link>
               );
             })}
