@@ -1,5 +1,7 @@
 "use client";
 
+import { GlowingEffect } from "./ui/glowing-effect";
+
 export type News = {
   id: number;
   title: string;
@@ -18,7 +20,8 @@ export function NewsCard({ item }: { item: News }) {
     item.content.length > 130 ? `${item.content.slice(0, 130)}…` : item.content;
 
   return (
-    <div className="card-hover group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-lg hover:border-slate-200 transition-all">
+    <div className="card-hover relative group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm hover:shadow-lg hover:border-slate-200 transition-all">
+      <GlowingEffect variant="white" disabled={false} />
       {/* Image */}
       <div className="relative h-44 w-full overflow-hidden bg-slate-100">
         {item.imageUrl ? (
