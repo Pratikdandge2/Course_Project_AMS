@@ -9,6 +9,7 @@ import { MemberAvatars, type Member } from "../components/MemberAvatars";
 import { apiFetch } from "../lib/api";
 import { Skeleton } from "../components/Skeleton";
 import { WorldMapDemo } from "../components/WorldMapDemo";
+import { GlowingEffect } from "../components/ui/glowing-effect";
 
 async function getHomeData() {
   try {
@@ -127,48 +128,41 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA BANNER & FOOTER with World Map background ── */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-[var(--navy-dark)] via-[var(--navy)] to-[#1e4480]">
-        {/* World map as background */}
-        <div className="absolute inset-x-0 bottom-0 top-0 opacity-70 pointer-events-none flex items-center justify-center">
+      {/* ── CTA BANNER (with World Map background) ── */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[var(--navy-dark)] via-[var(--navy)] to-[#1e4480]">
+        {/* World map background */}
+        <div className="absolute inset-0 opacity-60 pointer-events-none flex items-center justify-center">
           <WorldMapDemo />
         </div>
-        
-        {/* CTA BANNER */}
+
         <div className="relative z-10 mx-auto max-w-6xl px-4 py-16 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-[var(--gold)] mb-3">
+            Join the Network
+          </p>
           <h2 className="text-2xl font-black text-white md:text-3xl">
             Ready to reconnect with your{" "}
             <span className="text-[var(--gold)]">VCET family?</span>
           </h2>
-          <p className="mt-3 text-white/60 text-sm">
-            Join thousands of alumni already on the network. It&apos;s free and
-            always will be.
+          <p className="mt-3 text-white/60 text-sm max-w-md mx-auto">
+            Join thousands of alumni already on the network. It&apos;s free and always will be.
           </p>
           <a
             href="/register"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[var(--gold)] px-8 py-4 text-sm font-bold text-slate-900 shadow-xl hover:bg-amber-400 transition-all hover:scale-105"
+            className="relative overflow-hidden mt-20 inline-flex items-center gap-2 rounded-xl bg-[var(--gold)] px-8 py-4 text-sm font-bold text-slate-900 shadow-xl hover:bg-amber-400 transition-all hover:scale-105"
           >
-            Create Your Alumni Profile
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
+            <GlowingEffect disabled={false} />
+            <span className="relative z-10 flex items-center gap-2">
+              Create Your Alumni Profile
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </span>
           </a>
         </div>
 
-        {/* FOOTER */}
-        <div className="relative z-10">
-          <Footer />
-        </div>
+
+        {/* Footer lives inside the same dark section so bg-transparent works */}
+        <Footer />
       </section>
     </div>
   );

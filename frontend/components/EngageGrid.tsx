@@ -1,5 +1,7 @@
 "use client";
 
+import { GlowingEffect } from "./ui/glowing-effect";
+
 const items = [
   {
     title: "Share Opportunities",
@@ -68,6 +70,7 @@ export function EngageGrid() {
               key={it.title}
               className="card-hover group relative h-52 overflow-hidden rounded-2xl cursor-pointer ring-1 ring-black/5"
             >
+              <GlowingEffect variant="white" disabled={false} />
               {/* Background image */}
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"

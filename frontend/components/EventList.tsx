@@ -1,5 +1,7 @@
 "use client";
 
+import { GlowingEffect } from "./ui/glowing-effect";
+
 export type EventItem = {
   id: number;
   title: string;
@@ -17,7 +19,8 @@ function monthDay(d: Date) {
 
 export function EventList({ items }: { items: EventItem[] }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
+    <div className="relative overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm">
+      <GlowingEffect variant="white" disabled={false} />
       {/* Header */}
       <div className="flex items-center gap-3 border-b border-slate-100 bg-gradient-to-r from-[var(--navy)] to-[#1e4480] px-5 py-4">
         <svg

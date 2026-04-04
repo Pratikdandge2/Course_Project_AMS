@@ -31,7 +31,7 @@ async function main() {
           title: "Alumni Meet 2026 Announced",
           content:
             "We’re excited to announce the annual alumni meet. Register to reconnect, network, and celebrate achievements.",
-          imageUrl: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1200&q=60"
+          imageUrl: "/alumni-meet-2026.png"
         },
         {
           title: "VCET Startup Showcase",
@@ -80,10 +80,6 @@ async function main() {
         {
           imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=60",
           caption: "Panel discussion"
-        },
-        {
-          imageUrl: "https://images.unsplash.com/photo-1515165562835-c4c1b572d08d?auto=format&fit=crop&w=1200&q=60",
-          caption: "Campus memories"
         }
       ]
     });
