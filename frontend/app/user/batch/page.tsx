@@ -474,7 +474,7 @@ export default function BatchPage() {
           </button>
           <button
             type="button"
-            className="rounded bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white hover:opacity-95"
+            className="cursor-pointer rounded bg-[var(--navy)] px-6 py-3 text-sm font-semibold text-white hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
             onClick={() => void submit()}
           >
             Submit for Approval

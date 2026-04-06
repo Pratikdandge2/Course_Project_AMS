@@ -229,7 +229,7 @@ function CreateAccountPageInner() {
           <div className="flex items-center gap-4">
             <button
               disabled={loading}
-              className="rounded bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+              className="rounded bg-[var(--navy)] px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-60 hover:opacity-95"
             >
               {loading ? "Creating..." : "Create Account"}
             </button>

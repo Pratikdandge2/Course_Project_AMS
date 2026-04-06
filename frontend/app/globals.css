@@ -195,4 +195,10 @@ body {
   html {
     @apply font-sans;
     }
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
 }

@@ -23,9 +23,11 @@ export function Footer() {
         {/* Column 1 — Brand */}
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/15 text-base font-black text-white border border-white/20">
-              V
-            </div>
+            <img 
+              src="https://vcet.edu.in/wp-content/uploads/2026/02/College_Logo_R-removebg-preview.png" 
+              alt="VCET Logo" 
+              className="h-10 w-auto object-contain"
+            />
             <div>
               <div className="text-sm font-black text-white">VCET</div>
               <div className="text-xs text-slate-400">Alumni Association</div>

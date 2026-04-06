@@ -26,10 +26,11 @@ export function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--navy)] shadow-lg group-hover:bg-[var(--navy-light)] transition-colors">
-              <span className="text-lg font-black text-white tracking-tight">V</span>
-              <div className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-[var(--gold)] border-2 border-white" />
-            </div>
+            <img 
+              src="https://vcet.edu.in/wp-content/uploads/2026/02/College_Logo_R-removebg-preview.png" 
+              alt="VCET Logo" 
+              className="h-11 w-auto object-contain"
+            />
             <div className="leading-tight">
               <div className="text-base font-black text-[var(--navy)] tracking-wide">VCET</div>
               <div className="text-xs text-slate-500 font-medium">Alumni Association</div>
