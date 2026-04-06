@@ -3,13 +3,14 @@ import { HeroSection } from "../components/HeroSection";
 import { Footer } from "../components/Footer";
 import { NewsCard, type News } from "../components/NewsCard";
 import { EventList, type EventItem } from "../components/EventList";
-import { EngageGrid } from "../components/EngageGrid";
+
 import { GalleryStrip, type GalleryPhoto } from "../components/GalleryStrip";
 import { MemberAvatars, type Member } from "../components/MemberAvatars";
 import { apiFetch } from "../lib/api";
 import { Skeleton } from "../components/Skeleton";
 import { WorldMapDemo } from "../components/WorldMapDemo";
 import { GlowingEffect } from "../components/ui/glowing-effect";
+import { ScrollRevealTextureSection } from "../components/ScrollRevealTextureSection";
 
 async function getHomeData() {
   try {
@@ -38,55 +39,53 @@ export default async function HomePage() {
       <Navbar />
       <HeroSection />
 
-      {/* ── LATEST NEWS + EVENTS ── */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          {/* Section header */}
-          <div className="mb-10 flex items-end justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[var(--gold)]">
-                What's Happening
-              </p>
-              <h2 className="section-heading mt-1 text-2xl font-black text-slate-900">
-                Latest at VCET
-              </h2>
-            </div>
+      {/* ── LATEST NEWS + EVENTS + PHOTOS + MEMBERS (single continuous texture + single transition) ── */}
+      <ScrollRevealTextureSection>
+        {/* ── LATEST NEWS + EVENTS ── */}
+        <div className="mx-auto max-w-6xl px-4 py-12">
+          <div className="mb-8">
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--gold)]">
+              What&apos;s Happening
+            </p>
+            <h2 className="section-heading mt-1 text-2xl font-black text-slate-900">
+              Latest at VCET
+            </h2>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-[1fr_400px]">
-            {/* News column */}
+          <div className="grid gap-6 md:grid-cols-[1fr_360px]">
+            {/* ── News column — compact horizontal cards ── */}
             <div>
-              <div className="mb-4 flex items-center gap-3">
-                <div className="h-5 w-1 rounded-full bg-[var(--navy)]" />
-                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500">
+              <div className="mb-4 flex items-center gap-2">
+                <div className="h-4 w-1 rounded-full bg-[var(--navy)]" />
+                <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400">
                   Latest News
                 </h3>
               </div>
-              <div className="grid gap-5">
+              <div className="space-y-3">
                 {data ? (
                   data.news.map((n) => <NewsCard key={n.id} item={n} />)
                 ) : (
                   <>
-                    <Skeleton className="h-56 w-full" />
-                    <Skeleton className="h-56 w-full" />
+                    <Skeleton className="h-24 w-full" />
+                    <Skeleton className="h-24 w-full" />
                   </>
                 )}
               </div>
             </div>
 
-            {/* Events column */}
+            {/* ── Events column ── */}
             <div>
-              <div className="mb-4 flex items-center gap-3">
-                <div className="h-5 w-1 rounded-full bg-[var(--gold)]" />
-                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500">
+              <div className="mb-4 flex items-center gap-2">
+                <div className="h-4 w-1 rounded-full bg-[var(--gold)]" />
+                <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400">
                   Upcoming Events
                 </h3>
               </div>
               {data ? (
                 <EventList items={data.events} />
               ) : (
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div className="grid gap-3">
+                <div className="rounded-2xl border border-slate-100 bg-white p-4">
+                  <div className="space-y-3">
                     <Skeleton className="h-14 w-full" />
                     <Skeleton className="h-14 w-full" />
                     <Skeleton className="h-14 w-full" />
@@ -96,13 +95,8 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ── ENGAGE ── */}
-      <EngageGrid />
-
-      {/* ── PHOTOS + MEMBERS ── */}
-      <section className="bg-white">
+        {/* ── PHOTOS + MEMBERS ── */}
         <div className="mx-auto max-w-6xl px-4 py-16">
           <div className="mb-10">
             <p className="text-xs font-bold uppercase tracking-widest text-[var(--gold)]">
@@ -126,7 +120,7 @@ export default async function HomePage() {
             )}
           </div>
         </div>
-      </section>
+      </ScrollRevealTextureSection>
 
       {/* ── CTA BANNER (with World Map background) ── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[var(--navy-dark)] via-[var(--navy)] to-[#1e4480]">
@@ -143,7 +137,7 @@ export default async function HomePage() {
             Ready to reconnect with your{" "}
             <span className="text-[var(--gold)]">VCET family?</span>
           </h2>
-          <p className="mt-3 text-white/60 text-sm max-w-md mx-auto">
+          <p className="mt-3 text-white text-sm max-w-md mx-auto">
             Join thousands of alumni already on the network. It&apos;s free and always will be.
           </p>
           <a

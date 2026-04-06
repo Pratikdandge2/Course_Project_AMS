@@ -142,83 +142,62 @@ export function AuthShell({
 
   return (
     <div className="min-h-screen bg-[var(--cream)]">
-      {/* Row 1: Branding + top links + notification icons + avatar dropdown */}
-      <header className="w-full bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded bg-[var(--navy)] text-white" aria-hidden>
+      <header className="w-full bg-white shadow-sm sticky top-0 z-50">
+
+        {/* ── ROW 1: Logo | Secondary links (centered) | Icons + Me ── */}
+        <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-2.5">
+
+          {/* Logo — left */}
+          <Link href="/dashboard" className="flex items-center gap-2.5 flex-shrink-0 mr-6">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--navy)] text-white font-black text-base shadow-sm">
               V
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-semibold text-slate-800">VCET</div>
-              <div className="text-sm text-slate-600">Alumni Association</div>
+              <div className="text-sm font-black text-[var(--navy)] tracking-wide">VCET</div>
+              <div className="text-[11px] text-slate-500">Alumni Association</div>
             </div>
-          </div>
+          </Link>
 
-          <nav className="hidden items-center gap-4 text-sm font-semibold text-[var(--navy)] md:flex">
-            <a href="#" className="hover:opacity-90">
-              About Us
-            </a>
-            <a href="#" className="hover:opacity-90">
-              Gallery
-            </a>
-            <a href="#" className="hover:opacity-90">
-              Engage
-            </a>
-            <a href="#" className="hover:opacity-90">
-              Mobile App
-            </a>
-          </nav>
 
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              className="group relative flex flex-col items-center gap-0.5 rounded px-2 py-1 text-slate-500 hover:text-slate-900"
-              aria-label="Notifications"
-              onClick={() => {
-                setMenuOpen(false);
-                setNotificationOpen((v) => !v);
-              }}
-            >
-              <Bell className="h-6 w-6" />
-              <span className="text-[11px] font-medium">Notifications</span>
-              {unreadNotificationCount > 0 && (
-                <span className="absolute right-3 top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white ring-2 ring-white">
-                  {unreadNotificationCount}
-                </span>
-              )}
-            </button>
 
-            <button
-              type="button"
-              className="group flex flex-col items-center gap-0.5 rounded px-2 py-1 text-slate-500 hover:text-slate-900"
-              aria-label="Messages"
-              onClick={() => router.push("/messages")}
-            >
-              <div className="relative">
-                <MessageSquare className="h-6 w-6" />
-                {unreadMessageCount > 0 && (
-                  <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white ring-2 ring-white">
-                    {unreadMessageCount}
-                  </span>
-                )}
-              </div>
-              <span className="text-[11px] font-medium">Messaging</span>
-            </button>
 
+          {/* Right side — Notifications + Messaging + Me */}
+          <div className="flex items-center gap-1 flex-shrink-0 ml-auto">
+
+            {/* Notifications bell */}
             <div className="relative" ref={notificationRef}>
-              {notificationOpen ? (
-                <div className="absolute right-0 z-50 mt-2 w-80 max-w-[320px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                  <div className="px-4 py-3 text-left text-xs font-extrabold tracking-wide text-slate-500">NOTIFICATIONS</div>
-                  <div className="max-h-[400px] overflow-auto border-t border-slate-200">
+              <button
+                type="button"
+                className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"
+                aria-label="Notifications"
+                onClick={() => { setMenuOpen(false); setNotificationOpen((v) => !v); }}
+              >
+                <div className="relative">
+                  <Bell className="h-5 w-5" />
+                  {unreadNotificationCount > 0 && (
+                    <span className="absolute -right-1.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white ring-2 ring-white">
+                      {unreadNotificationCount}
+                    </span>
+                  )}
+                </div>
+                <span className="text-[11px] font-medium">Notifications</span>
+              </button>
+
+              {/* Notification dropdown — anchored to THIS div */}
+              {notificationOpen && (
+                <div className="absolute right-0 top-full mt-1 z-50 w-80 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+                  <div className="px-4 py-3 text-xs font-extrabold tracking-wide text-slate-500 border-b border-slate-100">
+                    NOTIFICATIONS
+                  </div>
+                  <div className="max-h-[380px] overflow-auto">
                     {notificationItems.length ? (
-                      <div className="space-y-0.5 px-2 pb-2">
+                      <div className="py-1">
                         {notificationItems.map((n) => (
                           <button
                             key={n.id}
                             type="button"
-                            className={`flex w-full items-start gap-3 rounded-lg border px-3 py-2 text-left transition-colors ${
-                              !n.isRead ? "border-transparent bg-white shadow-[inset_3px_0_0_0_#1B2F5E]" : "border-transparent bg-slate-50"
+                            className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-slate-50 ${
+                              !n.isRead ? "border-l-4 border-[var(--navy)] bg-blue-50/30" : ""
                             }`}
                             onClick={() => {
                               if (!n.isRead) {
@@ -228,156 +207,127 @@ export function AuthShell({
                               }
                               setNotificationOpen(false);
                               if (n.linkUrl) router.push(n.linkUrl);
-                              else toast("Opening notification (demo)");
                             }}
                           >
-                            <div className="grid h-9 w-9 place-items-center overflow-hidden rounded-full bg-slate-200 text-xs font-bold text-[var(--navy)]">
-                              {n.avatarName
-                                .split(/\s+/g)
-                                .slice(0, 2)
-                                .map((p) => p[0]!.toUpperCase())
-                                .join("")}
+                            <div className="grid h-9 w-9 flex-shrink-0 place-items-center overflow-hidden rounded-full bg-slate-200 text-xs font-bold text-[var(--navy)]">
+                              {n.avatarName.split(/\s+/g).slice(0, 2).map((p) => p[0]!.toUpperCase()).join("")}
                             </div>
                             <div className="min-w-0 flex-1">
-                              <div className="text-xs font-extrabold text-slate-900">{n.message}</div>
-                              <div className="mt-1 text-[11px] font-semibold text-slate-500">{relativeTime(n.createdAt)}</div>
+                              <div className="text-xs font-semibold text-slate-900 leading-snug">{n.message}</div>
+                              <div className="mt-1 text-[11px] text-slate-400">{relativeTime(n.createdAt)}</div>
                             </div>
                           </button>
                         ))}
                       </div>
                     ) : (
-                      <div className="px-4 py-10 text-center text-sm font-semibold text-slate-600">No notifications</div>
+                      <div className="px-4 py-10 text-center text-sm text-slate-500">No notifications yet</div>
                     )}
                   </div>
-
-                  <div className="border-t border-slate-200 px-4 py-3">
+                  <div className="border-t border-slate-100 px-4 py-3">
                     <button
                       type="button"
-                      className="w-full text-center text-xs font-extrabold text-[#17A2B8] hover:underline"
-                      onClick={() => {
-                        setNotificationOpen(false);
-                        router.push("/notifications");
-                      }}
+                      className="w-full text-center text-xs font-bold text-[var(--navy)] hover:underline"
+                      onClick={() => { setNotificationOpen(false); router.push("/notifications"); }}
                     >
                       View All Notifications
                     </button>
                   </div>
                 </div>
-              ) : null}
+              )}
             </div>
 
+            {/* Messaging */}
+            <button
+              type="button"
+              className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"
+              aria-label="Messages"
+              onClick={() => router.push("/messages")}
+            >
+              <div className="relative">
+                <MessageSquare className="h-5 w-5" />
+                {unreadMessageCount > 0 && (
+                  <span className="absolute -right-1.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-rose-600 px-1 text-[10px] font-bold text-white ring-2 ring-white">
+                    {unreadMessageCount}
+                  </span>
+                )}
+              </div>
+              <span className="text-[11px] font-medium">Messaging</span>
+            </button>
+
+            {/* Me dropdown */}
             <div className="relative" ref={menuRef}>
               <button
                 type="button"
-                onClick={() => {
-                  setNotificationOpen(false);
-                  setMenuOpen((v) => !v);
-                }}
-                className="flex items-center gap-2 rounded-full px-2 py-1 hover:bg-slate-50"
+                onClick={() => { setNotificationOpen(false); setMenuOpen((v) => !v); }}
+                className="flex flex-col items-center gap-0.5 rounded-lg px-3 py-2 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"
               >
-                <div className="grid h-8 w-8 place-items-center overflow-hidden rounded-full bg-slate-200">
+                <div className="grid h-6 w-6 place-items-center overflow-hidden rounded-full bg-[var(--navy)] text-white text-[10px] font-bold">
                   {user?.profilePhoto ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={user.profilePhoto} alt={displayName} className="h-full w-full object-cover" />
+                    <img src={user.profilePhoto} alt={displayName} className="h-full w-full object-cover rounded-full" />
                   ) : (
-                    <span className="text-xs font-bold text-[var(--navy)]">{initials(displayName)}</span>
+                    <span>{initials(displayName)}</span>
                   )}
                 </div>
-                <div className="flex flex-col items-center">
-                  <div className="flex items-center gap-0.5 text-slate-500 group-hover:text-slate-900">
-                    <span className="text-[11px] font-medium">Me</span>
-                    <ChevronDown className="h-3 w-3" />
-                  </div>
+                <div className="flex items-center gap-0.5">
+                  <span className="text-[11px] font-medium">Me</span>
+                  <ChevronDown className="h-3 w-3" />
                 </div>
               </button>
 
-              {menuOpen ? (
-                <div className="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                  <div className="border-b border-slate-200 px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <div className="grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-slate-200">
-                        {user?.profilePhoto ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={user.profilePhoto} alt={displayName} className="h-full w-full object-cover" />
-                        ) : (
-                          <span className="text-xs font-bold text-[var(--navy)]">{initials(displayName)}</span>
-                        )}
-                      </div>
-                      <div className="min-w-0 text-left">
-                        <div className="truncate text-sm font-extrabold text-slate-900">{displayName}</div>
-                        <div className="truncate text-xs font-semibold text-slate-500">{user?.email ?? ""}</div>
-                      </div>
+              {menuOpen && (
+                <div className="absolute right-0 top-full mt-1 z-50 w-52 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+                  <div className="border-b border-slate-100 px-4 py-3 flex items-center gap-3">
+                    <div className="grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-[var(--navy)] text-white text-xs font-bold flex-shrink-0">
+                      {user?.profilePhoto ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={user.profilePhoto} alt={displayName} className="h-full w-full object-cover rounded-full" />
+                      ) : (
+                        <span>{initials(displayName)}</span>
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="truncate text-sm font-bold text-slate-900">{displayName}</div>
+                      <div className="truncate text-[11px] text-slate-500">{user?.email ?? ""}</div>
                     </div>
                   </div>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setMenuOpen(false);
-                        router.push("/profile");
-                      }}
-                      className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-                    >
-                      <UserIcon className="h-4 w-4 text-slate-500" />
-                      My Profile
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setMenuOpen(false);
-                        router.push("/profile/edit");
-                      }}
-                      className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-                    >
-                      <Pencil className="h-4 w-4 text-slate-500" />
-                      Edit Profile
-                    </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      router.push("/messages");
-                    }}
-                    className="block w-full px-4 py-3 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-                  >
-                    ✉️ Messages
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      router.push("/notifications");
-                    }}
-                    className="block w-full px-4 py-3 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-                  >
-                    🔔 Notifications
-                  </button>
-
-                  <Link
-                    href="/settings"
-                    onClick={() => setMenuOpen(false)}
-                    className="block px-4 py-3 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-                  >
-                    ⚙️ Settings
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      onLogout();
-                    }}
-                    className="block w-full px-4 py-3 text-left text-sm font-semibold text-rose-600 hover:bg-slate-50"
-                  >
-                    Logout
-                  </button>
+                  <div className="py-1">
+                    {[
+                      { label: "My Profile", icon: <UserIcon className="h-4 w-4" />, href: "/profile" },
+                      { label: "Edit Profile", icon: <Pencil className="h-4 w-4" />, href: "/profile/edit" },
+                      { label: "Messages", icon: <MessageSquare className="h-4 w-4" />, href: "/messages" },
+                      { label: "Notifications", icon: <Bell className="h-4 w-4" />, href: "/notifications" },
+                      { label: "Settings", icon: <Settings className="h-4 w-4" />, href: "/settings" },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        type="button"
+                        onClick={() => { setMenuOpen(false); router.push(item.href); }}
+                        className="flex w-full items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors text-left"
+                      >
+                        <span className="text-slate-400">{item.icon}</span>
+                        {item.label}
+                      </button>
+                    ))}
+                    <div className="border-t border-slate-100 mt-1 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => { setMenuOpen(false); onLogout(); }}
+                        className="flex w-full items-center gap-3 px-4 py-2.5 text-sm font-medium text-rose-600 hover:bg-rose-50 transition-colors"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Logout
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              ) : null}
+              )}
             </div>
           </div>
         </div>
 
-        {/* Row 2: Emoji icon nav bar */}
-        <div className="w-full border-b border-slate-200 bg-white">
+        {/* ── ROW 2: Icon nav (LinkedIn-style) ── */}
+        <div className="w-full border-t border-slate-100">
           <div className="mx-auto flex max-w-6xl items-stretch px-2">
             {iconNavItems.map((it) => {
               const active =
@@ -395,16 +345,15 @@ export function AuthShell({
                   key={it.key}
                   href={it.href}
                   className={clsx(
-                    "relative flex flex-1 flex-col items-center justify-center gap-1.5 px-3 py-3 text-center transition-colors",
-                    active ? "text-slate-900" : "text-slate-500 hover:text-slate-900"
+                    "relative flex flex-1 flex-col items-center justify-center gap-1 px-2 py-3 text-center transition-colors min-w-0",
+                    active ? "text-slate-900" : "text-slate-400 hover:text-slate-700 hover:bg-slate-50"
                   )}
                 >
-                  <it.Icon className={clsx("h-6 w-6 transition-all", active ? "scale-110" : "")} />
-                  <div className={clsx("text-xs font-semibold tracking-wide", active ? "text-slate-900 font-bold" : "")}>
+                  <it.Icon className={clsx("h-5 w-5 flex-shrink-0", active ? "text-slate-900" : "")} />
+                  <div className={clsx("text-[11px] font-semibold truncate w-full text-center", active ? "text-slate-900" : "")}>
                     {it.label}
                   </div>
-                  {/* LinkedIn-style active bottom indicator */}
-                  {active && <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-slate-900" />}
+                  {active && <div className="absolute bottom-0 left-2 right-2 h-[2px] rounded-t-full bg-slate-900" />}
                 </Link>
               );
             })}

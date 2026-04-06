@@ -61,7 +61,7 @@ export function HeroSection() {
       />
 
       {/* ── CONTENT (sits above all layers) ── */}
-      <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:py-24">
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-4 py-16 pb-12 md:grid-cols-2 md:items-center md:py-24 md:pb-20">
 
         {/* Left — Text */}
         <div>
@@ -118,9 +118,10 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Right — Carousel (unchanged) */}
-        <div className="relative z-10">
-          <div className="relative overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/20">
+        {/* Right — Carousel */}
+        <div className="relative z-10 mt-6 md:mt-0">
+          {/* Carousel frame — proper border ring */}
+          <div className="relative overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/30 bg-slate-900">
             {slides.map((s, i) => (
               <div
                 key={i}
@@ -131,17 +132,21 @@ export function HeroSection() {
                 style={{ backgroundImage: `url(${s.img})` }}
               />
             ))}
-            <div className="relative h-72 md:h-96" />
+            {/* Spacer to give height */}
+            <div className="relative h-72 md:h-[400px]" />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--navy-dark)]/60 via-transparent to-transparent" />
+            {/* Bottom gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-            <div className="absolute bottom-14 left-5 right-5">
-              <div className="inline-block rounded-lg bg-black/40 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm">
+            {/* Slide label */}
+            <div className="absolute bottom-14 left-4 right-4">
+              <div className="inline-block rounded-lg bg-black/50 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm border border-white/10">
                 {slides[idx].label}
               </div>
             </div>
 
-            <div className="absolute bottom-5 left-0 right-0 flex justify-center gap-2">
+            {/* Dots */}
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
               {slides.map((_, i) => (
                 <button
                   key={i}
@@ -149,17 +154,16 @@ export function HeroSection() {
                   onClick={() => setIdx(i)}
                   className={clsx(
                     "rounded-full transition-all duration-300",
-                    i === idx ? "h-2 w-8 bg-[var(--gold)]" : "h-2 w-2 bg-white/40",
+                    i === idx ? "h-2 w-8 bg-[var(--gold)]" : "h-2 w-2 bg-white/40 hover:bg-white/60",
                   )}
                 />
               ))}
             </div>
           </div>
 
-          {/* Floating member card */}
-          <div className="absolute -bottom-4 left-4 md:-left-4 relative overflow-hidden rounded-xl bg-white p-3 shadow-xl ring-1 ring-slate-100 z-20">
-            <GlowingEffect variant="white" disabled={false} />
-            <div className="relative z-10 flex items-center gap-2.5">
+          {/* Floating member card — properly ABSOLUTE, positioned at bottom-left of carousel */}
+          <div className="absolute -bottom-5 left-3 z-20 rounded-xl bg-white p-3 shadow-xl ring-1 ring-slate-100">
+            <div className="flex items-center gap-2.5">
               <div className="flex -space-x-2">
                 {["bg-blue-400", "bg-purple-400", "bg-pink-400", "bg-amber-400"].map((c, i) => (
                   <div key={i} className={`h-7 w-7 rounded-full ${c} border-2 border-white`} />
@@ -180,7 +184,7 @@ export function HeroSection() {
         className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.85) 80%, #ffffff 100%)",
+            "linear-gradient(to bottom, transparent 0%, rgba(214,234,248,0.45) 55%, rgba(214,234,248,0.88) 82%, rgba(214,234,248,1) 100%)",
         }}
         aria-hidden
       />

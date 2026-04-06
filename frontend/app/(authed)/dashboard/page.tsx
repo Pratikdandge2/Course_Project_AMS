@@ -575,41 +575,56 @@ export default function DashboardPage() {
               </button>
             </div>
 
-            {/* Birthdays */}
+            {/* VCET News — LinkedIn News style */}
             <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between gap-3">
-                <div className="text-sm font-extrabold text-slate-900">Upcoming Birthdays</div>
-                <button type="button" className="text-xs font-semibold text-[var(--navy)] hover:underline" onClick={() => toast("Birthday list modal coming soon")}>
-                  View All
-                </button>
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-sm font-extrabold text-slate-900">VCET News</div>
+                <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
 
-              <div className="mt-3 space-y-3">
+              <div className="space-y-3">
                 {[
-                  { name: "Saivamshi Jilla", date: "MAR 15", meta: "BE 2026, CE" },
-                  { name: "Dhruti Patil", date: "MAR 15", meta: "BE 2026, CE" },
-                  { name: "Shreya Parchurkar", date: "MAR 16", meta: "BE 2024, IT" },
-                  { name: "Sumit chawan", date: "MAR 16", meta: "BE 2016, IT" },
-                  { name: "Jagruti Lakule", date: "MAR 16", meta: "MMS 2025" }
-                ].map((b) => (
-                  <div key={b.name} className="flex items-center justify-between gap-3 rounded-xl bg-slate-50 p-2">
-                    <div className="flex items-center gap-2">
-                      <div className="grid h-9 w-9 place-items-center rounded-full bg-slate-200 text-xs font-bold text-[var(--navy)]">
-                        {b.name
-                          .split(/\s+/g)
-                          .slice(0, 2)
-                          .map((x) => x[0]!)
-                          .join("")}
+                  { title: "Alumni Meet 2026 Announced", age: "2 hours ago", readers: 142, hot: true },
+                  { title: "VCET Startup Showcase — Register Now", age: "5 hours ago", readers: 98 },
+                  { title: "NBA Accreditation for 4 Departments", age: "1 day ago", readers: 410, hot: true },
+                  { title: "New Job Opportunities Posted This Week", age: "2 days ago", readers: 67 },
+                  { title: "Mentorship Program Kickoff — April 23", age: "3 days ago", readers: 205 },
+                ].map((item, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className="group flex w-full items-start gap-2 text-left hover:bg-slate-50 -mx-2 px-2 py-1.5 rounded-lg transition-colors"
+                    onClick={() => toast("Navigating to news (demo)")}
+                  >
+                    {/* Bullet */}
+                    <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-slate-400 group-hover:bg-[var(--navy)] transition-colors" />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-semibold text-slate-800 leading-snug group-hover:text-[var(--navy)] transition-colors line-clamp-2">
+                        {item.title}
                       </div>
-                      <div>
-                        <div className="text-xs font-extrabold text-slate-900">{b.name}</div>
-                        <div className="text-[11px] text-slate-500">{b.meta}</div>
+                      <div className="mt-0.5 flex items-center gap-1.5 text-[10px] text-slate-400">
+                        <span>{item.age}</span>
+                        <span>·</span>
+                        <span>{item.readers} readers</span>
+
                       </div>
                     </div>
-                    <div className="text-xs font-extrabold text-slate-700">{b.date}</div>
-                  </div>
+                  </button>
                 ))}
               </div>
+
+              <button
+                type="button"
+                className="mt-4 w-full text-left text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-50 -mx-2 px-2 py-2 rounded-lg transition-colors flex items-center gap-1"
+                onClick={() => toast("Full news feed (demo)")}
+              >
+                Show more
+                <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
             </div>
           </div>
         </aside>
