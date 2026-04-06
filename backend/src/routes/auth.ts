@@ -77,19 +77,23 @@ const LoginSchema = z.object({
 function signTokens(user: { id: number; role: "ALUMNI" | "ADMIN" }) {
   const accessToken = jwt.sign(
     { sub: user.id, role: user.role },
-    config.jwtSecret,
-    { expiresIn: config.jwtAccessTtl }
+    config.jwtSecret as jwt.Secret,
+    { expiresIn: config.jwtAccessTtl as jwt.SignOptions["expiresIn"] }
   );
   const refreshToken = jwt.sign(
     { sub: user.id, role: user.role, typ: "refresh" },
-    config.jwtSecret,
-    { expiresIn: config.jwtRefreshTtl }
+    config.jwtSecret as jwt.Secret,
+    { expiresIn: config.jwtRefreshTtl as jwt.SignOptions["expiresIn"] }
   );
   return { accessToken, refreshToken };
 }
 
 function signRegistrationToken(userId: number) {
-  return jwt.sign({ sub: userId, role: "ALUMNI", typ: "reg" }, config.jwtSecret, { expiresIn: "2h" });
+  return jwt.sign(
+    { sub: userId, role: "ALUMNI", typ: "reg" },
+    config.jwtSecret as jwt.Secret,
+    { expiresIn: "2h" as jwt.SignOptions["expiresIn"] },
+  );
 }
 
 export const authRouter = Router();
