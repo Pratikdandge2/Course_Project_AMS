@@ -32,6 +32,37 @@ adminRouter.get("/pending", async (req, res, next) => {
   }
 });
 
+adminRouter.get("/users", async (req, res, next) => {
+  try {
+    const page = z.coerce.number().int().min(1).catch(1).parse(req.query.page);
+    const pageSize = z.coerce.number().int().min(1).max(50).catch(10).parse(req.query.pageSize);
+    const skip = (page - 1) * pageSize;
+
+    const [total, users] = await Promise.all([
+      prisma.user.count(),
+      prisma.user.findMany({
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: pageSize,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          status: true,
+          graduationYear: true,
+          department: true,
+          createdAt: true
+        }
+      })
+    ]);
+
+    return res.json({ page, pageSize, total, users });
+  } catch (e) {
+    return next(e);
+  }
+});
+
 adminRouter.put("/users/:id/approve", async (req, res, next) => {
   try {
     const id = z.coerce.number().int().parse(req.params.id);
@@ -70,3 +101,18 @@ adminRouter.put("/users/:id/reject", async (req, res, next) => {
   }
 });
 
+adminRouter.delete("/users/:id", async (req, res, next) => {
+  try {
+    const id = z.coerce.number().int().parse(req.params.id);
+    const user = await prisma.user.delete({
+      where: { id },
+      select: { id: true, email: true, name: true }
+    }).catch(() => null);
+
+    if (!user) throw new HttpError(404, "User not found");
+
+    return res.json({ ok: true, deletedUser: user });
+  } catch (e) {
+    return next(e);
+  }
+});

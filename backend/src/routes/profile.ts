@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
+import bcrypt from "bcrypt";
 import { prisma } from "../prisma.js";
 import { requireAuth } from "../middleware/auth.js";
 import { HttpError } from "../utils/httpError.js";
@@ -78,3 +79,41 @@ profileRouter.delete("/course/:id", async (req, res, next) => {
   }
 });
 
+const AccountUpdateSchema = z.object({
+  email: z.string().email().optional(),
+  password: z.string().min(8).optional()
+});
+
+profileRouter.put("/account", async (req, res, next) => {
+  try {
+    const { email, password } = AccountUpdateSchema.parse(req.body);
+    const userId = req.user!.id;
+    const data: any = {};
+
+    if (email) {
+      const existing = await prisma.user.findUnique({ where: { email } });
+      if (existing && existing.id !== userId) {
+        throw new HttpError(400, "Email already in use");
+      }
+      data.email = email;
+    }
+
+    if (password) {
+      data.password = await bcrypt.hash(password, 10);
+    }
+
+    if (Object.keys(data).length === 0) {
+      return res.json({ ok: true, message: "No changes provided" });
+    }
+
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data,
+      select: { id: true, email: true, name: true }
+    });
+
+    return res.json({ ok: true, user: updated });
+  } catch (e) {
+    return next(e);
+  }
+});
