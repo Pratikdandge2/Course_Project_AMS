@@ -141,6 +141,8 @@ export default function ProfilePage() {
 
             {/* Profile Sections */}
             <div className="mt-6 space-y-4" id="incomplete-section">
+              <AccountSecuritySection currentEmail={me.email} />
+
               <SectionCard
                 title="Professional Details"
                 icon="💼"
@@ -297,4 +299,83 @@ function SectionCard({
     </section>
   );
 }
+function AccountSecuritySection({ currentEmail }: { currentEmail: string }) {
+  const [email, setEmail] = useState(currentEmail);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  async function handleSave() {
+    if (password && password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+    const auth = loadAuth();
+    try {
+      await apiFetch("/api/profile/account", {
+        method: "PUT",
+        token: auth?.accessToken ?? undefined,
+        body: JSON.stringify({
+          email: email !== currentEmail ? email : undefined,
+          password: password || undefined
+        })
+      });
+      toast.success("Account updated successfully");
+      setPassword("");
+      setConfirmPassword("");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to update account");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <SectionCard title="Account Security" icon="🔐" onEdit={() => {}}>
+      <div className="space-y-4">
+        <div>
+          <label className="block text-xs font-bold uppercase text-slate-500">Email Address</label>
+          <input
+            type="email"
+            className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 focus:border-[#17A2B8] focus:outline-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div>
+            <label className="block text-xs font-bold uppercase text-slate-500">New Password</label>
+            <input
+              type="password"
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 focus:border-[#17A2B8] focus:outline-none"
+              placeholder="Keep current"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold uppercase text-slate-500">Confirm Password</label>
+            <input
+              type="password"
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 focus:border-[#17A2B8] focus:outline-none"
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="flex justify-start">
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            className="rounded-lg bg-[#17A2B8] px-6 py-2.5 text-sm font-bold text-white shadow-sm hover:opacity-90 disabled:opacity-50"
+          >
+            {loading ? "SAVING..." : "SAVE CHANGES"}
+          </button>
+        </div>
+      </div>
+    </SectionCard>
+  );
+}
