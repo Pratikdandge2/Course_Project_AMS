@@ -69,6 +69,8 @@ export async function apiFetch<T>(
     } else if (data?.error) {
       msg = data.error;
     }
+    // eslint-disable-next-line no-console
+    console.error(`[apiFetch] Error ${res.status} on ${path}:`, msg);
     throw new Error(msg);
   }
 

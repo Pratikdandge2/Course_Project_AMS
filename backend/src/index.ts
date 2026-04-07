@@ -7,6 +7,8 @@ import { publicRouter } from "./routes/public.js";
 import { profileRouter } from "./routes/profile.js";
 import { groupsRouter } from "./routes/groups.js";
 import { businessRouter } from "./routes/business.js";
+import { messagesRouter } from "./routes/messages.js";
+import { notificationsRouter } from "./routes/notifications.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
@@ -27,6 +29,8 @@ app.use("/api", publicRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/groups", groupsRouter);
 app.use("/api/business", businessRouter);
+app.use("/api/messages", messagesRouter);
+app.use("/api/notifications", notificationsRouter);
 
 app.use(errorHandler);
 

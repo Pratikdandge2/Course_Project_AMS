@@ -52,7 +52,9 @@ export function requireAuth(req: Request, _res: Response, next: NextFunction) {
     if (!Number.isFinite(id)) throw new HttpError(401, "Invalid token subject");
     req.user = { id, role: parsed.role };
     return next();
-  } catch {
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(`[requireAuth] Auth failed for ${req.path}:`, err instanceof Error ? err.message : err);
     return next(new HttpError(401, "Invalid or expired token"));
   }
 }
